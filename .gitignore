@@ -14,3 +14,6 @@ audit-utf8.json
 Thumbs.db
 .DS_Store
 .vscode/
+**/*.tsbuildinfo
+tools/
+Twelvedevs - Тестовое задание (FS) - Онлайн-библиотека 1.pdf
