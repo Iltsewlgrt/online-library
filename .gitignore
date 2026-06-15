@@ -1,0 +1,16 @@
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+coverage/
+.env
+**/.env
+.env.*
+!**/.env.example
+audit.json
+audit-utf8.json
+*.log
+*.tmp
+Thumbs.db
+.DS_Store
+.vscode/
