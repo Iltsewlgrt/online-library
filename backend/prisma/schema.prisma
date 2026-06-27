@@ -18,33 +18,42 @@ model User {
 }
 
 model Comment {
-    id        String   @id @default(cuid())
-    text      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    author    User     @relation(fields: [authorId], references: [id])
-    authorId  String
-    bookId    String
+    id          String   @id @default(cuid())
+    text        String
+    bookId      String
+    bookTitle   String
+    bookAuthors String
+    bookCover   String?
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    author      User     @relation(fields: [authorId], references: [id])
+    authorId    String
 }
 
 model Like {
-    id        String   @id @default(cuid())
-    user      User     @relation(fields: [userId], references: [id])
-    userId    String
-    bookId    String
-    createdAt DateTime @default(now())
+    id          String   @id @default(cuid())
+    user        User     @relation(fields: [userId], references: [id])
+    userId      String
+    bookId      String
+    bookTitle   String
+    bookAuthors String
+    bookCover   String?
+    createdAt   DateTime @default(now())
 
     @@unique([userId, bookId])
 }
 
 model ReadingItem {
-    id        String        @id @default(cuid())
-    user      User          @relation(fields: [userId], references: [id])
-    userId    String
-    bookId    String
-    status    ReadingStatus
-    createdAt DateTime      @default(now())
-    updatedAt DateTime      @updatedAt
+    id          String        @id @default(cuid())
+    user        User          @relation(fields: [userId], references: [id])
+    userId      String
+    bookId      String
+    bookTitle   String
+    bookAuthors String
+    bookCover   String?
+    status      ReadingStatus
+    createdAt   DateTime      @default(now())
+    updatedAt   DateTime      @updatedAt
 
     @@unique([userId, bookId])
 }

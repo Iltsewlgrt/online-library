@@ -22,7 +22,13 @@ Root commands:
 - npm run dev:backend
 - npm run dev:frontend
 
-Database setup:
+What `npm run dev` does:
+
+1. Starts Postgres with `docker compose up -d` from the backend workspace
+2. Starts the NestJS backend
+3. Starts the React frontend
+
+Database setup, if you want to run pieces manually:
 
 1. Start Postgres (from backend folder):
    - cd backend
