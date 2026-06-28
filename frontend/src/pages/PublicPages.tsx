@@ -8,8 +8,6 @@ import type { BookDetails, BookMeStatus, BookPreview, CommentItem, PaginatedResp
 
 type SearchResponse = PaginatedResponse<BookPreview>;
 
-// ─── Shared auth form ────────────────────────────────────────────────────────
-
 function AuthForm({
     title,
     submitLabel,
@@ -60,8 +58,6 @@ function AuthForm({
         </section>
     );
 }
-
-// ─── Pages ───────────────────────────────────────────────────────────────────
 
 export function LoginPage() {
     const { login } = useAuth();
@@ -177,14 +173,12 @@ export function BookPage() {
     const [commentsTotal, setCommentsTotal] = useState(0);
     const [commentsPage, setCommentsPage] = useState(1);
 
-    // User-specific state loaded via the dedicated me-status endpoint
     const [liked, setLiked] = useState(false);
     const [readingStatus, setReadingStatus] = useState<ReadingItem['status'] | null>(null);
     const [statusToSave, setStatusToSave] = useState<ReadingItem['status']>('WANT');
 
     const [commentText, setCommentText] = useState('');
-    const [editingId, setEditingId] = useState<string | null>(null);
-    const [editingText, setEditingText] = useState('');
+    const [editingId, setEditingId] = useState<string | null>(null);    const [editingText, setEditingText] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [actionError, setActionError] = useState('');
@@ -217,7 +211,6 @@ export function BookPage() {
                         `/library/books/${bookId}/comments`,
                         { params: { page: 1, limit: 5 } },
                     ),
-                    // Works for guests too (returns { liked: false, readingStatus: null })
                     api.get<BookMeStatus>(`/library/books/${bookId}/me-status`),
                 ]);
 
@@ -245,16 +238,12 @@ export function BookPage() {
 
         void load();
         return () => { cancelled = true; };
-        // Re-run when bookId changes or the user logs in/out
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [bookId, user?.id]);
 
-    // Reload comments when page changes after initial load
     useEffect(() => {
         if (!loading) {
             void loadComments(commentsPage);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [commentsPage]);
 
     const handleToggleLike = async () => {

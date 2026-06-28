@@ -2,7 +2,6 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma.service';
 
-/** Fields returned for any public/authenticated user profile — never exposes the password hash. */
 const SAFE_USER_SELECT = { id: true, username: true, createdAt: true } as const;
 
 @Injectable()
@@ -17,12 +16,10 @@ export class UsersService {
         return this.prisma.user.findUnique({ where: { username } });
     }
 
-    /** Returns the full record including password — for internal auth use only. */
     async findById(id: string) {
         return this.prisma.user.findUnique({ where: { id } });
     }
 
-    /** Returns a safe profile object without the password hash. */
     async getProfile(id: string) {
         return this.prisma.user.findUnique({
             where: { id },

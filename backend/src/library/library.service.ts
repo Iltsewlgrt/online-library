@@ -10,8 +10,6 @@ export class LibraryService {
         private readonly openLibrary: OpenLibraryService,
     ) { }
 
-    // ─── Search / Details ─────────────────────────────────────────────────────
-
     async searchBooks(query: string, page = 1, limit = 12) {
         return this.openLibrary.searchBooks(query, page, limit);
     }
@@ -26,11 +24,6 @@ export class LibraryService {
         return { ...snapshot, likesCount, commentsCount };
     }
 
-    /**
-     * Returns the requesting user's like state and reading-list status for a
-     * specific book. Safe to call with `userId = undefined` (guest) — returns
-     * { liked: false, readingStatus: null }.
-     */
     async getBookMeStatus(userId: string | undefined, bookId: string) {
         if (!userId) {
             return { liked: false, readingStatus: null };
@@ -46,8 +39,6 @@ export class LibraryService {
             readingStatus: readingItem?.status ?? null,
         };
     }
-
-    // ─── Comments ─────────────────────────────────────────────────────────────
 
     async getComments(bookId: string, page = 1, limit = 10) {
         const [items, total] = await Promise.all([
@@ -125,8 +116,6 @@ export class LibraryService {
         return { items, total, page, limit };
     }
 
-    // ─── Likes ────────────────────────────────────────────────────────────────
-
     async toggleLike(userId: string, bookId: string) {
         const existing = await this.prisma.like.findUnique({
             where: { userId_bookId: { userId, bookId } },
@@ -171,8 +160,6 @@ export class LibraryService {
 
         return { items, total, page, limit };
     }
-
-    // ─── Reading list ─────────────────────────────────────────────────────────
 
     async getMyReadingList(userId: string, page = 1, limit = 10, status?: ReadingStatus, q?: string) {
         const where = this.buildBookSearchWhere(userId, q, status);
@@ -222,8 +209,6 @@ export class LibraryService {
         return { success: true };
     }
 
-    // ─── Cross-scope search ───────────────────────────────────────────────────
-
     async searchMyBooks(userId: string, scope: 'likes' | 'reading' = 'likes', q?: string, page = 1, limit = 10) {
         if (scope === 'likes') {
             return this.getMyLikes(userId, page, limit, q);
@@ -231,8 +216,6 @@ export class LibraryService {
 
         return this.getMyReadingList(userId, page, limit, undefined, q);
     }
-
-    // ─── Private helpers ──────────────────────────────────────────────────────
 
     private buildBookSearchWhere(userId: string, q: string | undefined, status?: ReadingStatus) {
         const search = q?.trim();

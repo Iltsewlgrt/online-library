@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
@@ -25,7 +26,7 @@ export class AuthController {
     @ApiBearerAuth()
     @UseGuards(JwtAuthGuard)
     @Get('me')
-    me(@Req() req: any) {
-        return this.auth.me(req.user.sub);
+    me(@Req() req: Request) {
+        return this.auth.me(req.user!.sub);
     }
 }

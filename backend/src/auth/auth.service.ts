@@ -2,13 +2,11 @@ import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
-import { PrismaService } from '../prisma.service';
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly users: UsersService,
-        private readonly prisma: PrismaService,
         private readonly jwt: JwtService,
     ) { }
 
@@ -38,12 +36,12 @@ export class AuthService {
     }
 
     async me(userId: string) {
-        const user = await this.users.findById(userId);
+        const user = await this.users.getProfile(userId);
         if (!user) {
             throw new UnauthorizedException();
         }
 
-        return { id: user.id, username: user.username, createdAt: user.createdAt };
+        return user;
     }
 
     private buildAuthResponse(userId: string, username: string) {

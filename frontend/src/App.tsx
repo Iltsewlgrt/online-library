@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { RequireAuth } from './components/ProtectedRoute';
 import { SiteLayout } from './layouts/SiteLayout';
-import { CabinetLayout } from './pages/CabinetLayout';
+import { CabinetLayout } from './layouts/CabinetLayout';
 import {
     BookPage,
     CommentsHistoryPage,

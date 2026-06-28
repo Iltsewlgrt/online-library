@@ -9,14 +9,9 @@ api.interceptors.request.use((config) => {
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
-
     return config;
 });
 
-/**
- * Axios response interceptor: surfaces the server's error message
- * from the NestJS response body instead of the generic "Request failed".
- */
 api.interceptors.response.use(
     (response) => response,
     (error) => {
